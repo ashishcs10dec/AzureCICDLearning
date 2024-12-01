@@ -1,0 +1,31 @@
+﻿@model MyTutor.Models.Signin
+@{
+    ViewData["Title"] = "Signin";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+<article class="card-body mx-auto">
+    <h4 class="card-title mt-3 text-center">Signin</h4>
+    <p class="text-center">Signin and enjoy!</p>
+    <p class="text-center" style="color:red;">@ViewBag.ErrorMsg</p>
+    @using (Html.BeginForm("Signin", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div>
+            <div class="form-group input-group">
+                @Html.TextBoxFor(x => x.Email, null, new { @placeholder = "Email", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Email, null, new { @Style = "color:red;" })
+            </div>
+            <div class="form-group input-group">
+                @Html.PasswordFor(x => x.Password, new { @placeholder = "Password", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Password, null, new { @Style = "color:red;" })
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block"> Signin  </button>
+            </div>
+            <p class="text-center">Register? <a href="@Url.Action("Register","Register")">Create Account</a></p>
+            <p class="text-center"><a href="@Url.Action("ForgetPassword","Users")">Forget Password?</a> </p>
+            <p class="text-center">Have you not received account verification link? <a href="@Url.Action("VerifyLink","Users")">Click Here</a> </p>
+        </div>
+    }
+</article>

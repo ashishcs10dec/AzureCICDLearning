@@ -1,0 +1,64 @@
+2021-04-19 09:24:56,845 [9] ERROR MyTutor.Controllers.HomeController [(null)] - System.Data.Entity.Core.EntityException: The underlying provider failed on Open. ---> System.Data.SqlClient.SqlException: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server) ---> System.ComponentModel.Win32Exception: The network path was not found
+   --- End of inner exception stack trace ---
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling, SqlAuthenticationProviderManager sqlAuthProviderManager)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at System.Data.Entity.Infrastructure.Interception.DbConnectionDispatcher.<>c.<Open>b__13_0(DbConnection t, DbConnectionInterceptionContext c)
+   at System.Data.Entity.Infrastructure.Interception.InternalDispatcher`1.Dispatch[TTarget,TInterceptionContext](TTarget target, Action`2 operation, TInterceptionContext interceptionContext, Action`3 executing, Action`3 executed)
+   at System.Data.Entity.Infrastructure.Interception.DbConnectionDispatcher.Open(DbConnection connection, DbInterceptionContext interceptionContext)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.<Open>b__55_0()
+   at System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.<>c__DisplayClass2_0.<Execute>b__0()
+   at System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   at System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute(Action operation)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.Open()
+   --- End of inner exception stack trace ---
+   at System.Data.Entity.Core.EntityClient.EntityConnection.Open()
+   at System.Data.Entity.Core.Objects.ObjectContext.EnsureConnection(Boolean shouldMonitorTransactions)
+   at System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   at System.Data.Entity.Core.Objects.ObjectQuery`1.<>c__DisplayClass41_0.<GetResults>b__0()
+   at System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   at System.Data.Entity.Core.Objects.ObjectQuery`1.GetResults(Nullable`1 forMergeOption)
+   at System.Data.Entity.Core.Objects.ObjectQuery`1.<System.Collections.Generic.IEnumerable<T>.GetEnumerator>b__31_0()
+   at System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at MyTutor.Controllers.HomeController.AllProfile(Int32 pageNumber) in D:\MyTutorCode\MyTutor\MyTutor\Controllers\HomeController.cs:line 86
+2021-04-19 09:25:50,372 [7] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 09:38:37,087 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 11:02:43,675 [8] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 11:04:11,368 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 11:07:18,985 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 12:19:23,543 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:02:13,431 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:05:31,111 [7] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:05:31,126 [8] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:25:59,588 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:26:37,082 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:27:04,091 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:30:04,807 [7] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:30:52,513 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:31:33,504 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:31:43,876 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:31:59,120 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:32:51,499 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:33:14,499 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:34:03,833 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 13:34:21,577 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 14:20:43,466 [24] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 14:42:08,125 [7] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 14:49:42,655 [8] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 15:08:03,947 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 15:09:48,319 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 15:10:56,834 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 16:47:30,498 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!
+2021-04-19 16:52:44,971 [6] INFO  MyTutor.Controllers.HomeController [(null)] - Welcome to MaiTutors!

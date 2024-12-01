@@ -1,0 +1,137 @@
+﻿@model MyTutor.Models.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+<article class="card-body mx-auto">
+    <h4 class="card-title mt-3 text-center">Create Account</h4>
+    <p class="text-center">Get started with your free account</p>
+    <p class="text-center" style="color:red;">@ViewBag.ErrorMsg</p>
+    @using (Html.BeginForm("Register", "Register", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div>
+            <div class="form-group input-group">
+                @Html.TextBoxFor(x => x.FullName, null, new { @placeholder = "Full Name", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.FullName, null, new { @Style = "color:red;" })
+            </div>
+            <div class="form-group input-group">
+                @Html.TextBoxFor(x => x.EmailId, null, new { @placeholder = "Email", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.EmailId, null, new { @Style = "color:red;" })
+            </div>
+            <div class="form-group input-group">
+                @Html.PasswordFor(x => x.Password, new { @placeholder = "Password", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Password, null, new { @Style = "color:red;" })
+            </div>
+            <div class="form-group input-group">
+                @Html.PasswordFor(x => x.ConfirmPassword, new { @placeholder = "Confirm Password", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.ConfirmPassword, null, new { @Style = "color:red;" })
+            </div>
+            <div class="form-group input-group">
+                @Html.TextBoxFor(x => x.MobileNumber, null, new { @placeholder = "Mobile Number", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.MobileNumber, null, new { @Style = "color:red;" })
+            </div>
+            <div class="form-group input-group">
+                @Html.DropDownListFor(x => x.StateId, (IEnumerable<SelectListItem>)ViewBag.StateList, "Select State", new { @class = "form-control", @onChange = "SelectedValueState(this)" })
+                @Html.ValidationMessageFor(x => x.StateId, null, new { @Style = "color:red;" })
+            </div>
+            <div class="form-group input-group">
+                @Html.DropDownListFor(x => x.CityId, (IEnumerable<SelectListItem>)ViewBag.CityList, new { @class = "form-control", @onChange = "SelectedValueCity(this)" })
+                @Html.ValidationMessageFor(x => x.CityId, null, new { @Style = "color:red;" })
+            </div>
+            <div class="form-group input-group">
+                @Html.DropDownListFor(x => x.AreaId, (IEnumerable<SelectListItem>)ViewBag.AreaList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.AreaId, null, new { @Style = "color:red;" })
+            </div>
+            <div class="form-group input-group">
+                @Html.TextAreaFor(x => x.Address, new { @placeholder = "Address", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Address, null, new { @Style = "color:red;" })
+            </div>
+            <div class="form-group input-group">
+                <span>Upload Image:</span>
+                <input type="file" name="ProfileImage" id="ProfileImage" onchange="Filevalidation();" />
+                @Html.ValidationMessageFor(x => x.ProfileImage, null, new { @Style = "color:red;" })
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+            </div> <!-- form-group// -->
+            <p class="text-center">Have an account? <a href="@Url.Action("Signin","Users")">Signin</a> </p>
+        </div>
+    }
+</article>
+@section scripts{
+    <script type="text/javascript">
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+
+        function SelectedValueState(ddlObject) {
+            var StId = ddlObject.value;
+            var ddlCity = $('#CityId');
+            var ddlArea = $('#AreaId');
+             $.ajax({
+                url: '@Url.Action("CityList", "Register")',
+                type: 'POST',
+                dataType: 'json',
+                 data: { StateId: StId },
+                 success: function (d) {
+                     ddlCity.empty();
+                     ddlCity.append($("<option></option>").val('').html('Select City'));
+                     ddlArea.empty();
+                     ddlArea.append($("<option></option>").val('').html('Select Area'));
+                     $.each(d, function (i, cityDetail) {
+                         console.log(d);
+                         ddlCity.append($("<option></option>").val(cityDetail.CityId).html(cityDetail.CityName));
+                    });
+                },
+                 error: function (d) {
+                    alert('Error!');
+                }
+            });
+        }
+
+        function SelectedValueCity(ddlObject) {
+            var CtId = ddlObject.value;
+            var ddlArea = $('#AreaId');
+             $.ajax({
+                url: '@Url.Action("AreaList", "Register")',
+                type: 'POST',
+                dataType: 'json',
+                 data: { CityId: CtId },
+                 success: function (d) {
+                     ddlArea.empty();
+                     ddlArea.append($("<option></option>").val('').html('Select Area'));
+                     $.each(d, function (i, areaDetail) {
+                         ddlArea.append($("<option></option>").val(areaDetail.AreaId).html(areaDetail.AreaName));
+                    });
+                },
+                error: function (d) {
+                    alert('Error!');
+                }
+            });
+        }
+    </script>
+    <script>
+        Filevalidation = () => {
+            const fi = document.getElementById('ProfileImage');
+            // Check if any file is selected.
+            if (fi.files.length > 0) {
+                for (const i = 0; i <= fi.files.length - 1; i++) {
+                    const fsize = fi.files.item(i).size;
+                    const file = Math.round((fsize / 1024));
+                    // The size of the file.
+                    debugger;
+                    if (file >= 2048) {
+                        alert(
+                            "File too Big, please select a file less than 2mb");
+                        $("#ProfileImage").val('');
+                        return;
+                    }
+                }
+            }
+        }
+    </script>
+} 

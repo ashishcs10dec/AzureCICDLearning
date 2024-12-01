@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <img src="~/images/banner2.jpg" alt="ASP.NET" class="img-responsive" />
+            <div class="carousel-caption" role="option">
+                <p>
+                    Tutor? Searching for students.
+                    @{if (!User.Identity.IsAuthenticated)
+                        {
+                            <a class="btn btn-default" href="@Url.Action("Register", "Register")">
+                                Register here
+                            </a>
+                        }
+                    }
+                </p>
+                <p>
+                    Searching for online tutor near to you?
+                    <a class="btn btn-default" href="@Url.Action("AllProfile","Home")">
+                        Click here
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

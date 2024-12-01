@@ -1,0 +1,312 @@
+﻿@model Tuple<List<MyTutor.Models.MyProfileModel>, MyTutor.Models.SearchFilter>
+@{
+    ViewData["Title"] = "Tutors";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+@using (Html.BeginForm("AllProfile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group input-group">
+                    @Html.DropDownListFor(x => x.Item2.StateId, (IEnumerable<SelectListItem>)ViewBag.StateList, "Select State", new { @class = "form-control", @onChange = "SelectedValueState(this)" })
+                    @Html.ValidationMessageFor(x => x.Item2.StateId, null, new { @Style = "color:red;" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group input-group">
+                    @Html.DropDownListFor(x => x.Item2.CityId, (IEnumerable<SelectListItem>)ViewBag.CityList, new { @class = "form-control", @onChange = "SelectedValueCity(this)" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group input-group">
+                    @Html.DropDownListFor(x => x.Item2.AreaId, (IEnumerable<SelectListItem>)ViewBag.AreaList, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group input-group">
+                    <input type="button" name="Search" class="form-control" value="Search" onclick="searchMe();" />
+                    <input type="button" name="Reset" class="form-control" value="Reset" onclick="resetMe();" />
+                </div>
+            </div>
+        </div>
+        <div class="row" id="userData">
+            @{ foreach (var item in @Model.Item1)
+                {
+                    <div class="col-md-3">
+                        <div class="contact-box center-version">
+                            <a href="@Url.Action("UserProfile","Home",new { uId=item.Id })">
+                                <img alt="image" class="img-circle" src="..\Images\@item.ProfilePicPath">
+                                <h3 class="m-b-xs">
+                                    @{
+                                        var name = "";
+                                        int wordCount = item.FullName.Length;
+                                        if (wordCount > 12)
+                                        {
+                                            name = item.FullName.Substring(0, 12);
+                                            <strong>@name...</strong>
+                                        }
+                                        else
+                                        {
+                                            <strong>@item.FullName</strong>
+                                        }
+                                    }
+                                </h3>
+
+                                <div class="font-bold">Ex. @item.Experience | @item.HighestEducation</div>
+                                <address class="m-t-md">
+                                    <strong>@item.Area, @item.City</strong><br>
+                                    @item.EmailId<br>
+                                    @item.ClassFrom <strong>To</strong> @item.ClassTo<br>
+                                    @{
+                                        var mobileNo = item.MobileNumber.Substring(0, 6);
+                                        <abbr title="Phone">Ph:</abbr>@(mobileNo+"XXXX")
+                                    }
+                                </address>
+
+                            </a>
+                            @*<div class="contact-box-footer">
+                                    <div class="m-t-xs btn-group">
+                                        <a class="btn btn-xs btn-white"><i class="fa fa-phone"></i> Call </a>
+                                        <a class="btn btn-xs btn-white"><i class="fa fa-envelope"></i> Email</a>
+                                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                                    </div>
+                                </div>*@
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+}
+@section scripts{
+    <script type="text/javascript">
+        var ajaxCallUrl = 'AllProfile/Home',
+            page = 0,
+            inCallback = false,
+            isReachedScrollEnd = false;
+
+
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(window).scrollTop() ==
+                    $(document).height() - $(window).height()) {
+                    loadProducts(ajaxCallUrl);
+                }
+            });
+            //if (isReachedScrollEnd == false &&
+            //    ($(document).scrollTop() <= $(document).height() - $(window).height())) {
+            //    alert(123);
+            //    loadProducts(ajaxCallUrl);
+            //}
+        });
+
+        function resetMe() {
+            $(".loader").show();
+            location.reload();
+        }
+
+        function searchMe() {
+            page = 0;
+            loadProductsOnSearch(ajaxCallUrl)
+        }
+
+        function loadProducts(ajaxCallUrl) {
+            var stateid = (typeof $("#Item2_StateId").val() == '') ? '0' : $("#Item2_StateId").val();
+            var cityid = (typeof $("#Item2_CityId").val() == 'Select City') ? '0' : $("#Item2_CityId").val();
+            cityid = $("#Item2_CityId").val() == '' ? '0' : $("#Item2_CityId").val();
+            var areaid = '0';
+            if ($("#Item2_AreaId").val() != '') {
+                areaid = (typeof $("#Item2_AreaId").val() == 'Select Area') ? '0' : $("#Item2_AreaId").val();
+            }
+            if (page > -1 && !inCallback) {
+                inCallback = true;
+                page++;
+                $(".loader").show();
+                $.ajax({
+                    type: 'POST',
+                    url: ajaxCallUrl,
+                    dataType: 'html',
+                    data: { 'pageNumber': page, 'StateId': stateid, 'CityId': cityid, 'AreaId': areaid },
+                    success: function (data, textstatus) {
+                        if (data != '') {
+                            $("#userData").append(data);
+                            $(".loader").hide();
+                        }
+                        else {
+                            page = -1;
+                            $(".loader").hide();
+                        }
+
+                        inCallback = false;
+                        $(".loader").hide();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(errorThrown);
+                        $(".loader").hide();
+                    }
+                });
+            }
+        }
+        function loadProductsOnSearch(ajaxCallUrl) {
+            var stateid = (typeof $("#Item2_StateId").val() == '') ? '0' : $("#Item2_StateId").val();
+            var cityid = (typeof $("#Item2_CityId").val() == 'Select City') ? '0' : $("#Item2_CityId").val();
+            cityid = $("#Item2_CityId").val() == '' ? '0' : $("#Item2_CityId").val();
+            var areaid = '0';
+            if ($("#Item2_AreaId").val() != '') {
+                areaid = (typeof $("#Item2_AreaId").val() == 'Select Area') ? '0' : $("#Item2_AreaId").val();
+            }
+            if (page > -1 && !inCallback) {
+                inCallback = true;
+                $(".loader").show();
+                $.ajax({
+                    type: 'POST',
+                    url: ajaxCallUrl,
+                    //contentType: 'application/html; charset=utf-8',
+                    dataType: 'html',
+                    data: { 'pageNumber': page, 'StateId': stateid, 'CityId': cityid, 'AreaId': areaid },
+                    success: function (data, textstatus) {
+                        if (data != '') {
+                            $("#userData").empty();
+                            $("#userData").html(data);
+                            $(".loader").hide();
+                        }
+                        else {
+                            $("#userData").empty();
+                            $("#userData").html("<p>No record found.</p>");
+                            page = -1;
+                            $(".loader").hide();
+                        }
+
+                        inCallback = false;
+                        $(".loader").hide();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    }
+                });
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+
+        function SelectedValueState(ddlObject) {
+            var StId = ddlObject.value;
+            if (StId == '') {
+                StId = '0';
+            }
+            var ddlCity = $('#Item2_CityId');
+            var ddlArea = $('#Item2_AreaId');
+             $.ajax({
+                url: '@Url.Action("CityList", "Register")',
+                type: 'POST',
+                dataType: 'json',
+                 data: { StateId: StId },
+                 success: function (d) {
+                     ddlCity.empty();
+                     ddlCity.append($("<option></option>").val('').html('Select City'));
+                     ddlArea.empty();
+                     ddlArea.append($("<option></option>").val('').html('Select Area'));
+                     $.each(d, function (i, cityDetail) {
+                         console.log(d);
+                         ddlCity.append($("<option></option>").val(cityDetail.CityId).html(cityDetail.CityName));
+                    });
+                },
+                 error: function () {
+                    alert('Error!');
+                }
+            });
+        }
+
+        function SelectedValueCity(ddlObject) {
+            var CtId = ddlObject.value;
+            if (CtId == '') {
+                CtId = "0";
+            }
+            var ddlArea = $('#Item2_AreaId');
+             $.ajax({
+                url: '@Url.Action("AreaList", "Register")',
+                type: 'POST',
+                dataType: 'json',
+                 data: { CityId: CtId },
+                 success: function (d) {
+                     ddlArea.empty();
+                     ddlArea.append($("<option></option>").val('').html('Select Area'));
+                     $.each(d, function (i, areaDetail) {
+                         console.log(d);
+                         ddlArea.append($("<option></option>").val(areaDetail.AreaId).html(areaDetail.AreaName));
+                    });
+                },
+                error: function () {
+                    alert('Error!');
+                }
+            });
+        }
+    </script>
+}
+<style>
+    body {
+        margin-top: 20px;
+        background: #eee;
+    }
+
+    /* CONTACTS */
+    .contact-box {
+        background-color: #ffffff;
+        border: 1px solid #e7eaec;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+        .contact-box > a {
+            color: inherit;
+        }
+
+        .contact-box.center-version {
+            border: 1px solid #e7eaec;
+            padding: 0;
+        }
+
+            .contact-box.center-version > a {
+                display: block;
+                background-color: #ffffff;
+                padding: 20px;
+                text-align: center;
+            }
+
+                .contact-box.center-version > a img {
+                    width: 80px;
+                    height: 80px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                }
+
+            .contact-box.center-version address {
+                margin-bottom: 0;
+            }
+
+        .contact-box .contact-box-footer {
+            text-align: center;
+            background-color: #ffffff;
+            border-top: 1px solid #e7eaec;
+            padding: 15px 20px;
+        }
+
+    a {
+        text-decoration: none !important;
+    }
+</style>

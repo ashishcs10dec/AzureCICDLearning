@@ -1,0 +1,26 @@
+﻿@model MyTutor.Models.ForgetPassword
+@{
+    ViewData["Title"] = "Verify Account";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+<article class="card-body mx-auto">
+    <h4 class="card-title mt-3 text-center">Verify Account</h4>
+    <p class="text-center">With in few minuts, you will get account verification link.</p>
+    <p class="text-center" style="color:red;">@ViewBag.Msg</p>
+    @using (Html.BeginForm("VerifyLink", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div>
+            <div class="form-group input-group">
+                @Html.TextBoxFor(x => x.Email, null, new { @placeholder = "Email", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Email, null, new { @Style = "color:red;" })
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block"> Submit </button>
+            </div>
+            <p class="text-center"><a href="@Url.Action("Signin","Users")">Signin</a> </p>
+        </div>
+    }
+</article>

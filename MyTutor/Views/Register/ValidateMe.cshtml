@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Validate Me";
+}
+<article class="card-body mx-auto">
+    <h4 class="card-title mt-3 text-center">Validate Me</h4>
+    <p class="text-center"></p>
+    <p class="text-center" style="color:red;">@ViewBag.ErrorMsg</p>
+    <div class="form-group input-group">
+        <p>@ViewBag.Msg</p>
+        <p><a href="@Url.Action("Signin","Users")" class="btn btn-outline-primary">Signin</a></p>
+    </div>
+</article>

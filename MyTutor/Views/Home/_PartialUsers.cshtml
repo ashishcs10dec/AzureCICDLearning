@@ -1,0 +1,29 @@
+﻿@model Tuple<List<MyTutor.Models.MyProfileModel>, MyTutor.Models.SearchFilter>
+@{ foreach (var item in @Model.Item1)
+    {
+        <div class="col-md-3">
+            <div class="contact-box center-version">
+                <a href="@Url.Action("UserProfile","Home",new {uId=item.Id })">
+                    <img alt="image" class="img-circle" src="..\Images\@item.ProfilePicPath">
+                    <h3 class="m-b-xs"><strong>@item.FullName</strong></h3>
+
+                    <div class="font-bold">Ex. @item.Experience | @item.HighestEducation</div>
+                    <address class="m-t-md">
+                        <strong>@item.Area, @item.City</strong><br>
+                        @item.EmailId<br>
+                        @item.ClassFrom <strong>To</strong> @item.ClassTo<br>
+                        <abbr title="Phone">Ph:</abbr> @item.MobileNumber
+                    </address>
+
+                </a>
+                @*<div class="contact-box-footer">
+                        <div class="m-t-xs btn-group">
+                            <a class="btn btn-xs btn-white"><i class="fa fa-phone"></i> Call </a>
+                            <a class="btn btn-xs btn-white"><i class="fa fa-envelope"></i> Email</a>
+                            <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    }
+}

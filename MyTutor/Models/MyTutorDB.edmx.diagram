@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a61b219b432b47f9a93114950db20960" Name="Diagram1">
+        <EntityTypeShape EntityType="MyTutorDBModel.MyTutor_AreaList" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyTutorDBModel.MyTutor_CityList" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyTutorDBModel.MyTutor_ContactUs" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyTutorDBModel.MyTutor_Profile" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyTutorDBModel.MyTutor_Registration" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyTutorDBModel.MyTutor_StateList" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="MyTutorDBModel.FK_MyTutor_AreaList_MyTutor_CityList" ManuallyRouted="false" />
+        <AssociationConnector Association="MyTutorDBModel.FK_MyTutor_CityList_MyTutor_StateList" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MyTutorDBModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="MyTutorDBModel.AspNetRole" Width="1.5" PointX="7.75" PointY="2.375" />
+        <EntityTypeShape EntityType="MyTutorDBModel.AspNetUserClaim" Width="1.5" PointX="12.25" PointY="1" />
+        <EntityTypeShape EntityType="MyTutorDBModel.AspNetUserLogin" Width="1.5" PointX="12.25" PointY="3.75" />
+        <EntityTypeShape EntityType="MyTutorDBModel.AspNetUser" Width="1.5" PointX="10" PointY="1.25" />
+        <AssociationConnector Association="MyTutorDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="MyTutorDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="MyTutorDBModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="MyTutorDBModel.MyTutor_GetContactInformation" Width="1.5" PointX="7.375" PointY="6.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

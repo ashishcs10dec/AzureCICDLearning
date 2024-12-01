@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyTutorDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="MyTutor_AreaList">
+    <Key>
+      <PropertyRef Name="AreaId" />
+    </Key>
+    <Property Name="AreaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AreaName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CityId" Type="Int32" />
+    <NavigationProperty Name="MyTutor_CityList" Relationship="Self.FK_MyTutor_AreaList_MyTutor_CityList" FromRole="MyTutor_AreaList" ToRole="MyTutor_CityList" />
+  </EntityType>
+  <EntityType Name="MyTutor_CityList">
+    <Key>
+      <PropertyRef Name="CityId" />
+    </Key>
+    <Property Name="CityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="StateId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MyTutor_AreaList" Relationship="Self.FK_MyTutor_AreaList_MyTutor_CityList" FromRole="MyTutor_CityList" ToRole="MyTutor_AreaList" />
+    <NavigationProperty Name="MyTutor_StateList" Relationship="Self.FK_MyTutor_CityList_MyTutor_StateList" FromRole="MyTutor_CityList" ToRole="MyTutor_StateList" />
+  </EntityType>
+  <EntityType Name="MyTutor_ContactUs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmailId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="IsAnswered" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="MyTutor_Profile">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TutorId" Type="Int32" Nullable="false" />
+    <Property Name="HighestEducation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Medium" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ClassFrom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ClassTo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Subjects" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Experience" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="ResumePath" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="MyTutor_Registration">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MobileNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Area" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ProfilePicPath" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DateTime" Type="DateTime" Precision="3" />
+    <Property Name="StateId" Type="Int32" />
+    <Property Name="CityId" Type="Int32" />
+    <Property Name="AreaId" Type="Int32" />
+    <Property Name="VerificationCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsValidated" Type="Boolean" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsAccountSuspended" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="MyTutor_StateList">
+    <Key>
+      <PropertyRef Name="StateId" />
+    </Key>
+    <Property Name="StateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="States" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="MyTutor_CityList" Relationship="Self.FK_MyTutor_CityList_MyTutor_StateList" FromRole="MyTutor_StateList" ToRole="MyTutor_CityList" />
+  </EntityType>
+  <Association Name="FK_MyTutor_AreaList_MyTutor_CityList">
+    <End Role="MyTutor_CityList" Type="Self.MyTutor_CityList" Multiplicity="0..1" />
+    <End Role="MyTutor_AreaList" Type="Self.MyTutor_AreaList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MyTutor_CityList">
+        <PropertyRef Name="CityId" />
+      </Principal>
+      <Dependent Role="MyTutor_AreaList">
+        <PropertyRef Name="CityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MyTutor_CityList_MyTutor_StateList">
+    <End Role="MyTutor_StateList" Type="Self.MyTutor_StateList" Multiplicity="1" />
+    <End Role="MyTutor_CityList" Type="Self.MyTutor_CityList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MyTutor_StateList">
+        <PropertyRef Name="StateId" />
+      </Principal>
+      <Dependent Role="MyTutor_CityList">
+        <PropertyRef Name="StateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MyTutorDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="MyTutor_AreaList" EntityType="Self.MyTutor_AreaList" />
+    <EntitySet Name="MyTutor_CityList" EntityType="Self.MyTutor_CityList" />
+    <EntitySet Name="MyTutor_ContactUs" EntityType="Self.MyTutor_ContactUs" />
+    <EntitySet Name="MyTutor_Profile" EntityType="Self.MyTutor_Profile" />
+    <EntitySet Name="MyTutor_Registration" EntityType="Self.MyTutor_Registration" />
+    <EntitySet Name="MyTutor_StateList" EntityType="Self.MyTutor_StateList" />
+    <AssociationSet Name="FK_MyTutor_AreaList_MyTutor_CityList" Association="Self.FK_MyTutor_AreaList_MyTutor_CityList">
+      <End Role="MyTutor_CityList" EntitySet="MyTutor_CityList" />
+      <End Role="MyTutor_AreaList" EntitySet="MyTutor_AreaList" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MyTutor_CityList_MyTutor_StateList" Association="Self.FK_MyTutor_CityList_MyTutor_StateList">
+      <End Role="MyTutor_StateList" EntitySet="MyTutor_StateList" />
+      <End Role="MyTutor_CityList" EntitySet="MyTutor_CityList" />
+    </AssociationSet>
+    <EntitySet Name="C__MigrationHistory" EntityType="MyTutorDBModel.C__MigrationHistory" />
+    <EntitySet Name="AspNetRoles" EntityType="MyTutorDBModel.AspNetRole" />
+    <EntitySet Name="AspNetUserClaims" EntityType="MyTutorDBModel.AspNetUserClaim" />
+    <EntitySet Name="AspNetUserLogins" EntityType="MyTutorDBModel.AspNetUserLogin" />
+    <EntitySet Name="AspNetUsers" EntityType="MyTutorDBModel.AspNetUser" />
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="MyTutorDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="MyTutorDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="MyTutorDBModel.AspNetUserRoles">
+      <End Role="AspNetRole" EntitySet="AspNetRoles" />
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <EntitySet Name="MyTutor_GetContactInformation" EntityType="MyTutorDBModel.MyTutor_GetContactInformation" />
+  </EntityContainer>
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="AspNetRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="Discriminator" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="MyTutorDBModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaim">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="MyTutorDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogin">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="MyTutorDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="MyExtraProperty" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="MyTutorDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="MyTutorDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+    <NavigationProperty Name="AspNetRoles" Relationship="MyTutorDBModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+  </EntityType>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Type="MyTutorDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="MyTutorDBModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaim">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Type="MyTutorDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="MyTutorDBModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogin">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Type="MyTutorDBModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+    <End Type="MyTutorDBModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+  </Association>
+  <EntityType Name="MyTutor_GetContactInformation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="MobileNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Descriptions" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="TutorId" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="IsEmailSend" Type="Boolean" />
+  </EntityType>
+</Schema>

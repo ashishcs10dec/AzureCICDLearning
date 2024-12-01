@@ -1,0 +1,78 @@
+﻿@model MyTutor.Models.UserProfile
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+<article class="card-body mx-auto">
+    <h4 class="card-title mt-3 text-center">Edit Profile</h4>
+    <p class="text-center" style="color:red;">@ViewBag.ErrorMsg</p>
+    @using (Html.BeginForm("EditProfile", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div>
+            <div class="form-group input-group">
+                <span>Change Profile Image:</span>
+                <input type="file" name="ProfileImage" id="ProfileImage" onchange="Filevalidation();" />
+                @Html.ValidationMessageFor(x => x.ProfileImage, null, new { @Style = "color:red;" })
+            </div>
+
+            <div class="form-group input-group">
+                @Html.TextBoxFor(x => x.HighestEducation, null, new { @placeholder = "Highest Education", @class = "form-control" })
+            </div>
+
+            <div class="form-group input-group">
+                @Html.TextBoxFor(x => x.Medium, null, new { @placeholder = "Medium(I can teach...)", @class = "form-control" })
+            </div>
+
+            <div class="form-group input-group">
+                @Html.TextBoxFor(x => x.ClassFrom, null, new { @placeholder = "ClassFrom", @class = "form-control" })
+            </div>
+
+            <div class="form-group input-group">
+                @Html.TextBoxFor(x => x.ClassTo, null, new { @placeholder = "ClassTo", @class = "form-control" })
+            </div>
+
+            <div class="form-group input-group">
+                @Html.TextBoxFor(x => x.Subjects, null, new { @placeholder = "Subjects", @class = "form-control" })
+            </div>
+
+            <div class="form-group input-group">
+                @Html.TextBoxFor(x => x.Experience, null, new { @placeholder = "Experience", @class = "form-control" })
+            </div>
+
+            <div class="form-group input-group">
+                @Html.TextAreaFor(x => x.Description, new { @placeholder = "Description", @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Save</button>
+                <a href="@Url.Action("MyProfile","Profile")" class="btn btn-outline-primary">Cancel</a>
+            </div>
+        </div>
+    }
+</article>
+
+@section scripts{
+    <script>
+        Filevalidation = () => {
+            const fi = document.getElementById('ProfileImage');
+            // Check if any file is selected.
+            if (fi.files.length > 0) {
+                for (const i = 0; i <= fi.files.length - 1; i++) {
+                    const fsize = fi.files.item(i).size;
+                    const file = Math.round((fsize / 1024));
+                    // The size of the file.
+                    debugger;
+                    if (file >= 2048) {
+                        alert(
+                            "File too Big, please select a file less than 2mb");
+                        $("#ProfileImage").val('');
+                        return;
+                    }
+                }
+            }
+        }
+    </script>
+}

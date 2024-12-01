@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+<section class="container principal-content">
+    <h1 class="text-center title">MaiTutors</h1>
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <p class="text-center lead">Here we are providing a platform for Teachers, Students and Parents who can connect very easily. If you are a Teacher and looking for tuition classes, just register with us.</p>
+            <div class="row">
+                <div class="col-xs-6">You can refer to our Demo tutor profile.</div>
+                <div class="col-xs-6 text-left"><a href="@Url.Action("UserProfile","Home",new { uId=2 })" style="color:#ffd800 !important;">Click here</a></div>
+            </div>
+            <p class="text-center">
+                <img src="https://bootdey.com/img/Content/Manbrown2.png" class="img-responsive center-block img-user">
+            </p>
+            <div class="row">
+                <div class="controls">
+                    <form action="/Jiita/cursos/buscar" method="get">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                            </div>
+                            <div class="input-group-btn">
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <br />
+            <br />
+        </div>
+    </div>
+</section>
+
+<style>
+    body {
+        background: #eee;
+    }
+
+    .principal-content {
+        background-color: #168ccc;
+        color: #FFFFFF;
+    }
+
+    .img-user {
+        width: 200px;
+        height: 200px;
+    }
+
+    .title {
+        color: #fff;
+        text-shadow: 1px 1px 0 #888;
+        line-height: normal;
+        font-weight: 1em;
+        font-family: serif;
+        font-size: 40px;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+</style>

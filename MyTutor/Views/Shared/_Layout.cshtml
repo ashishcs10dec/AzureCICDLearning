@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - MaiTutors</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="loader"></div>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="@Url.Action("Default","Home")" class="navbar-brand">MaiTutors</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="@Url.Action("About","Home")">About</a></li>
+                    <li><a href="@Url.Action("Contact","Home")">Contact</a></li>
+                    <li><a href="@Url.Action("AllProfile","Home")">Tutors</a></li>
+                    @{ if (User.Identity.IsAuthenticated)
+                        {
+                            <li><a href="@Url.Action("MyProfile","Profile")">My Profile</a></li>
+                            <li><a href="@Url.Action("Logout","Users")">Logout</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="@Url.Action("Register","Register")">Register</a></li>
+                            <li><a href="@Url.Action("Signin","Users")">SignIn</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - MaiTutors</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+<style>
+    .loader {
+        display: none;
+        position: fixed;
+        z-index: 9999999;
+        background-image: url('@Url.Content("~/Content/loading-buffering.gif")');
+        background-color: #666;
+        opacity: 0.4;
+        background-repeat: no-repeat;
+        background-position: center;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        top: 0;
+    }
+
+    .navbar-inverse {
+        background-color: #ffd800 !important;
+    }
+</style>
